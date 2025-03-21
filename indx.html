@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="Bstyle.css">
+    <style>
+    /* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #ff4081;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #444;
+}
+
+/* Button Styles */
+button {
+    background: #ff4081;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+    margin: 10px;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Hidden Popup */
+.hidden {
+    display: none;
+}
+
+#surprise {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: bounceIn 3s linear;
+}
+
+/* Balloons Animation */
+.balloons img {
+    width: 150px;
+    position: fixed;
+    top: 15px;
+    animation: floatBalloons linear 5s ;
+}
+
+@keyframes floatBalloons {
+    0% { transform: translateY(600px); }
+    50% { transform: translateY(50px); }
+    100% { transform: translateY(0); }
+}
+
+/* Fireworks Effect */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0);}
+    10% { transform: scale(10%); }
+    20% { transform: scale(20%); }
+    30% { transform: scale(30%); }
+    40% { transform: scale(40%); }
+    50% { transform: scale(50%); }
+    60% { transform: scale(60%); }
+    70% { transform: scale(70%); }
+    80% { transform: scale(80%); }
+    90% { transform: scale(90%); }
+    100% { transform: scale(100%); }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Balloons Animation -->
+    <div class="balloons">
+        <img src="/storage/emulated/0/Pictures/pngtree-happy-birthday-balloons-png-image_6549474.png" alt="Balloons">
+        <img style="position:fixed; left:270px" src="/storage/emulated/0/Pictures/pngtree-happy-birthday-balloons-png-image_6549474.png" alt="Balloons">
+    </div>
+
+    <!-- Birthday Message -->
+    <div class="container">
+        <h1>22/03/2006</h1>
+        <h1 class="animated-text">🎉 Happy Birthday My Love 🫂</h1>
+        <p class="fade-in">Wishing you a day filled with happiness, joy, and laughter. This day is most important for me because you came in my life 😊❤️ </p>
+        <button id="surpriseBtn">Click for Surprise</button>
+    </div>
+
+    <!-- Surprise Popup -->
+    <div id="surprise" class="hidden">
+        <img src="/storage/emulated/0/WhatsApp/Media/WhatsApp Images/IMG-20241015-WA0039.jpg" alt="" width="350px" height="580px">
+        <h2>✨ 😍🤩💓🥳 ✨</h2>
+        <p>Enjoy your special day my special person 🎁🎊</p>
+        <p>aap hamesha khus raho meri wife ji, apko meri bhi age lag jaye aur thank you meri life me ane ke liye motuu meri life ko itna khubsurat banane ke liye bhut bhut dhanywad meri motuu 🥰💞🫂</p>
+    </div>
+
+    <!-- Fireworks Effect -->
+    <canvas id="fireworks"></canvas>
+
+    <!-- Confetti Effect -->
+    <div id="confetti-container"></div>
+
+    <!-- Birthday Song -->
+    <audio id="birthdaySong" src="/storage/emulated/0/X1Player/Trimmed/Happy_Birthday_Kids_Mix___Aakanksha_Sharma___Nadeem_Saifi___Sameer_Anjan(256k) _Ringtone.mp3" autoplay loop></audio>
+  
+    <script>
+  document.getElementById("surpriseBtn").addEventListener("click", function () {
+    document.getElementById("surprise").classList.remove("hidden");
+    document.getElementById("birthdaySong").play();
+    launchConfetti();
+});
+
+// Fireworks Animation
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+class Particle {
+    constructor(x, y, color, size, speedX, speedY) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.size = size;
+        this.speedX = speedX;
+        this.speedY = speedY;
+    }
+    
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.size *= 0.95;
+    }
+    
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function createExplosion(x, y) {
+    for (let i = 0; i < 40; i++) {
+        let speedX = (Math.random() - 0.5) * 6;
+        let speedY = (Math.random() - 0.5) * 6;
+        let size = Math.random() * 5 + 2;
+        let colors = ["#ff0000", "#ff7300", "#ffeb00", "#00ff00", "#00c3ff", "#8a00ff"];
+        let color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push(new Particle(x, y, color, size, speedX, speedY));
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((particle, index) => {
+        particle.update();
+        particle.draw();
+        if (particle.size < 0.5) {
+            particles.splice(index, 1);
+        }
+    });
+    requestAnimationFrame(animate);
+}
+    
+    document.getElementById("surpriseBtn").addEventListener("click", function () {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    let x = Math.random() * canvas.width;
+                    let y = Math.random() * (canvas.height / 2);
+                    createExplosion(x, y);
+                }, i * 1000); // Delay between explosions
+            }
+        });
+    
+ canvas.addEventListener("click", (event) => {
+    createExplosion(event.clientX, event.clientY);
+});
+
+animate();
+   </script>
+</body>
+</html>
